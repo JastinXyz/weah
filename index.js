@@ -6,7 +6,24 @@ const {
 } = require("@adiwajshing/baileys");
 const { Boom } = require("@hapi/boom");
 const P = require("pino");
+const fs = require('fs');
+const cmd = new Map();
 let { prefix, autoRead } = require('./config.json');
+let args, command;
+
+function loadCommands() {
+    fs.readdir("./commands", (e, files) => {
+        if (e) return console.error(e);
+        files.forEach(folder => {
+            fs.readdir(`./commands/${folder}`, (e, filess) => {
+                filess.forEach(file => {
+                    console.log(file.replace(".js", "") + " Commands - Loaded")
+                    cmd.set(file.replace(".js", ""), folder + "/" + file)
+                })
+            })
+        });
+    });
+}
 
 async function connectToWhatsApp() {
     const { state, loadState, saveState } = useSingleFileAuthState('./session.json');
@@ -68,10 +85,19 @@ async function connectToWhatsApp() {
             }])
         }
 
-        if(text === `${prefix}ping`) {
-            await sock.sendMessage(msg.key.remoteJid, { text: 'pong!' })
+        try {
+            if (text.startsWith(prefix)) {
+                args = text.slice(prefix.length).trim().split(/ +/g);
+                command = args.shift().toLowerCase();
+            } else {
+                return;
+            }
+        } catch {}
+        if (cmd.has(command)) {
+            require(`./commands/${cmd.get(command)}`).run(sock, msg, args);
         }
     })
 }
 
+loadCommands()
 connectToWhatsApp()
