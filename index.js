@@ -122,5 +122,9 @@ async function connectToWhatsApp() {
     })
 }
 
+if(!fs.existsSync('./tmp')) {
+    fs.mkdirSync('./tmp')
+}
+
 loadCommands()
 connectToWhatsApp()

@@ -1,4 +1,8 @@
 {
 	"prefix": "#",
-	"autoRead": true
+	"autoRead": true,
+	"sticker": {
+		"pack": "icikiwir",
+		"author": "WeAh"
+	}
 }
