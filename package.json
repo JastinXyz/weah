@@ -1,0 +1,20 @@
+{
+  "name": "weah",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JastinXyz/weah.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JastinXyz/weah/issues"
+  },
+  "homepage": "https://github.com/JastinXyz/weah#readme"
+}
