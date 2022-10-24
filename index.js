@@ -18,9 +18,12 @@ function loadCommands() {
             fs.readdir(`./commands/${folder}`, (e, filess) => {
                 if (e) return console.error(e);
                 filess.forEach(file => {
+                    let { aliases, description, usage } =  require(`./commands/${folder}/${file}`).help;
                     let objectToSet = {
                         name: file.replace(".js", ""),
-                        aliases: require(`./commands/${folder}/${file}`).help.aliases,
+                        aliases,
+                        description,
+                        usage,
                         loc: folder + "/" + file,
                     }
 
@@ -107,7 +110,7 @@ async function connectToWhatsApp() {
                 c.aliases.includes(command.toLowerCase()) : c.aliases === command.toLowerCase()))
 
         if (val) {
-            require(`./commands/${val.loc}`).run(sock, msg, args);
+            require(`./commands/${val.loc}`).run(sock, msg, args, cmd);
         }
     })
 }
