@@ -1,17 +1,17 @@
 let { prefix } = require('../../config.json');
 
-exports.run = async(sock, msg, args, cmd) => {
-	let val = Array.from(cmd.values());
+exports.run = async(d) => {
+	let val = Array.from(d.cmd.values());
 	let dummy = {};
 	val.forEach((e) => {
 		dummy[e.name] = e;
 	})
 
-    if(!args[0]) {
-    	await sock.sendMessage(msg.key.remoteJid, { text: `All Commands: *${Object.keys(dummy).join(', ')}*\n\n\`\`\`${prefix}help <command name>\`\`\` for details...` })
+    if(!d.args[0]) {
+    	await d.f.reply(d, { text: `All Commands: *${Object.keys(dummy).join(', ')}*\n\n\`\`\`${prefix}help <command name>\`\`\` for details...` })
     } else {
-    	let { name, aliases, description, usage } = dummy[args[0]];
-    	await sock.sendMessage(msg.key.remoteJid, { text: `*${name}*\n\nAliases: ${aliases.join(", ")}\nDescription: ${description}\nUsage: \`\`\`${usage.replace('{prefix}', prefix)}\`\`\`` })
+    	let { name, aliases, description, usage } = dummy[d.args[0]];
+    	await d.f.reply(d, { text: `*${name}*\n\nAliases: ${aliases.join(", ")}\nDescription: ${description}\nUsage: \`\`\`${usage.replace('{prefix}', prefix)}\`\`\`` })
     }
 }
 

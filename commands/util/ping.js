@@ -1,5 +1,5 @@
-exports.run = async(sock, msg, args) => {
-	await sock.sendMessage(msg.key.remoteJid, { text: 'pong!' })
+exports.run = async(d) => {
+	d.f.reply(d, { text: 'pong!' })
 }
 
 exports.help = {

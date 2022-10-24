@@ -110,7 +110,14 @@ async function connectToWhatsApp() {
                 c.aliases.includes(command.toLowerCase()) : c.aliases === command.toLowerCase()))
 
         if (val) {
-            require(`./commands/${val.loc}`).run(sock, msg, args, cmd);
+            let data = {
+                sock,
+                msg,
+                args,
+                cmd,
+                f: require('./models/functions')
+            }
+            require(`./commands/${val.loc}`).run(data);
         }
     })
 }
