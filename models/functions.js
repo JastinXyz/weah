@@ -1,3 +1,6 @@
+let baileys = require("@adiwajshing/baileys");
+let { ownerNumbers } = require('../config.json');
+
 exports.reply = async(d, n) => {
 	await d.sock.sendMessage(d.msg.key.remoteJid, n, { quoted: d.msg })
 }
@@ -20,7 +23,7 @@ exports.Quoted = (d) => {
 exports.decodeJid = (jid) => {
 	if (!jid) return jid;
     if (/:\d+@/gi.test(jid)) {
-      let decode = require("@adiwajshing/baileys").jidDecode(jid) || {};
+      let decode = baileys.jidDecode(jid) || {};
       return (
         (decode.user && decode.server && decode.user + "@" + decode.server) ||
         jid
@@ -50,4 +53,12 @@ exports.react = (d, emoji, id) => {
 		    key: d.msg.key
 		}
 	})
+}
+
+exports.onlyOwner = (d, callback) => {
+	if(ownerNumbers.includes(module.exports.decodeJid(module.exports.sender(d)).replace("@s.whatsapp.net", ""))) {
+		callback();
+	} else {
+		module.exports.react(d, "👀");
+	}
 }
