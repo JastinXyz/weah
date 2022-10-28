@@ -8,8 +8,46 @@ exports.Quoted = (d) => {
 	let data = {
 		isQuoted: i,
 		type,
-		data: i? d.msg.message.extendedTextMessage.contextInfo.quotedMessage[type] : null
+		data: {
+			viaType: i? d.msg.message.extendedTextMessage.contextInfo.quotedMessage[type] : null,
+			normal: i? d.msg.message.extendedTextMessage.contextInfo.quotedMessage : null
+		},
 	}
 
 	return data;
+}
+
+exports.decodeJid = (jid) => {
+	if (!jid) return jid;
+    if (/:\d+@/gi.test(jid)) {
+      let decode = require("@adiwajshing/baileys").jidDecode(jid) || {};
+      return (
+        (decode.user && decode.server && decode.user + "@" + decode.server) ||
+        jid
+      );
+    } else return jid;
+}
+
+exports.sender = (d) => {
+	return d.msg.key.fromMe
+	    ? d.client.user.jid
+	    : d.msg.participant
+	    ? d.msg.participant
+	    : d.msg.key.participant
+	    ? d.msg.key.participant
+	    : d.msg.key.remoteJid;
+}
+
+exports.react = (d, emoji, id) => {
+	if(!id) {
+		id = d.msg.key.remoteJid
+	}
+
+	id === undefined? id = d.msg.key.remoteJid : "";
+	d.sock.sendMessage(id, {
+		react: {
+		    text: emoji, // use an empty string to remove the reaction
+		    key: d.msg.key
+		}
+	})
 }

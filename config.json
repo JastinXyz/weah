@@ -1,6 +1,7 @@
 {
 	"prefix": "#",
 	"autoRead": true,
+	"ownerNumbers": ["62812345678"],
 	"sticker": {
 		"pack": "icikiwir",
 		"author": "WeAh"

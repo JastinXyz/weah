@@ -7,7 +7,7 @@ exports.run = async(d) => {
 	let isq = d.f.Quoted(d);
 
 	if(isq.isQuoted && isq.type === 'imageMessage') {
-		img = isq.data;
+		img = isq.data.viaType;
 	}
 
 	if(img) {
